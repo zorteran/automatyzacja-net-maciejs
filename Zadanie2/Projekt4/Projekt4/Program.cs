@@ -6,7 +6,7 @@ namespace Zadanie4
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("y = a * (x * x) + b  * y + c");
+            Console.WriteLine("y = a * (x * x) + b  * x + c");
             Console.Write("podaj wartośc a = ");
             var a = Convert.ToDouble(Console.ReadLine());
 
@@ -27,13 +27,20 @@ namespace Zadanie4
         {
             double x1 = 0;
             double x2 = 0;
-
-            // napisz obliczanie rozwiązań (miejsc zerowych) funkcji kwadratowej 
-            // jeśli nie pamiętasz jak to się liczy to tutaj jest ściąga
-            // http://matma.prv.pl/kwadratowa.php
-            // postaraj się napisac to samodzielnie a nie googlując implementację
-            // powodzenia :)
-            
+            double delta = b * b - (4 * a * c);
+            if (delta<0)
+            {
+                Console.WriteLine("Funkcja nie ma miejsc zerowych");
+                return;
+            }
+            if (delta == 0) //jedno miejsce
+            {
+                x1 = (-1 * b ) / (2 * a);
+                Console.WriteLine(x1);
+                return;
+            }
+            x1 = (-1 * b + Math.Sqrt(delta)) / (2 * a);
+            x2 = (-1 * b - Math.Sqrt(delta)) / (2 * a);
             Console.WriteLine(x1);
             Console.WriteLine(x2);
         }
