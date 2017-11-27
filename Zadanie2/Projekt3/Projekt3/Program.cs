@@ -9,9 +9,9 @@ namespace Zadanie3
             Console.Write("Wprowadź dowolną liczbę całkowitą: ");
             string input = Console.ReadLine();
             Console.WriteLine();
-            if (int.TryParse(input, out integer)
+            if (int.TryParse(input, out int integer))
             {
-                Console.WriteLine("Wprowadzono liczbę całkowitą '" + input + "'");
+                Console.WriteLine("Wprowadzono liczbę całkowitą '" + integer + "'");
             }
             else
             {
@@ -20,10 +20,12 @@ namespace Zadanie3
                     input = "(pusty string)";
                 }
                 Console.WriteLine("Wprowadzona wartośc nie jest liczbą całkowitą!" + Environment.NewLine + "Wprowadzono '" + input + "'");
+
+            }
+            Console.WriteLine();
+            Console.WriteLine("Brawo! Trzecie zadanie zrobione :)");
+            Console.WriteLine("Naciśnij dowolny klawisz, aby zakończyć...");
+            Console.ReadKey();
         }
-        Console.WriteLine();
-        Console.WriteLine("Brawo! Trzecie zadanie zrobione :)");
-        Console.WriteLine("Naciśnij dowolny klawisz, aby zakończyć...");
-        Console.ReadKey();
     }
 }
