@@ -9,18 +9,22 @@ namespace Automatyzacja2017
 {
     public class MatematicsTests
     {
-        [Fact]
-        public void Method_add_returns_sum_of_given__integers()
+        [Theory]
+        [InlineData(10,20,30)]
+        [InlineData(20,20,40)]
+        [InlineData(20,30,50)]
+        public void Method_add_returns_sum_of_given__integers(double x, double y, double expected)
         {
             //arrange
             var math = new Mathematics();
 
             //act
-            double result = math.Add(10, 20);
+            double result = math.Add(x, y);
 
             //assert
-            Assert.Equal(30, result);
+            Assert.Equal(expected, result);
         }
+
         [Fact]
         public void Method_add_returns_sum_of_given_doubles()
         {
