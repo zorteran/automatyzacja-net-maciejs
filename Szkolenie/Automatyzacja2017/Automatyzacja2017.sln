@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Automatyzacja2017", "Automatyzacja2017\Automatyzacja2017.csproj", "{A5C196BB-5B25-4B7B-A2D5-C70209E84A08}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MySelenium", "MySelenium\MySelenium.csproj", "{8B014001-8CAA-489E-968E-CE7A302DE624}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{A5C196BB-5B25-4B7B-A2D5-C70209E84A08}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5C196BB-5B25-4B7B-A2D5-C70209E84A08}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5C196BB-5B25-4B7B-A2D5-C70209E84A08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B014001-8CAA-489E-968E-CE7A302DE624}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B014001-8CAA-489E-968E-CE7A302DE624}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B014001-8CAA-489E-968E-CE7A302DE624}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B014001-8CAA-489E-968E-CE7A302DE624}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
