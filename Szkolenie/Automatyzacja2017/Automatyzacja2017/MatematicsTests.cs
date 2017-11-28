@@ -110,5 +110,17 @@ namespace Automatyzacja2017
             //assert
             Assert.Equal(2, result);
         }
+
+        [Fact]
+        public void Method_divide_returns_exception_becouse_of_zero()
+        {
+            //arrange
+            var math = new Mathematics();
+
+            //act
+
+            //assert
+            Assert.ThrowsAny<Exception>(() => math.Divide(12.2, 0));
+        }
     }
 }
