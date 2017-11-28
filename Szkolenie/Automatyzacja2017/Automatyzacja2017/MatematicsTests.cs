@@ -112,7 +112,7 @@ namespace Automatyzacja2017
         }
 
         [Fact]
-        public void Method_divide_returns_exception_becouse_of_zero()
+        public void Method_divide_by_zero_returns_exception()
         {
             //arrange
             var math = new Mathematics();
@@ -120,7 +120,7 @@ namespace Automatyzacja2017
             //act
 
             //assert
-            Assert.ThrowsAny<Exception>(() => math.Divide(12.2, 0));
+            Assert.Throws<DivideByZeroException>(() => math.Divide(12.2, 0));
         }
     }
 }

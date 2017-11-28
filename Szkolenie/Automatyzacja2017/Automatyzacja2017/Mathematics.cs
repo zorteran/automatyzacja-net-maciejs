@@ -23,7 +23,7 @@ namespace Automatyzacja2017
         public double Divide(double x, double y)
         {
             if (y == 0)
-                throw new Exception("Nie dzielimy przez zero!");
+                throw new DivideByZeroException("Nie dzielimy przez zero!");
             return x / y;
         }
     }
