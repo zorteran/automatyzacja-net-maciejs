@@ -15,9 +15,10 @@ namespace SeleniumTests
     public class Example : IDisposable
 
     {
+        private const string SearchTextBoxId = "lst-ib";
+        private const string GoogleUrl = "https://www.google.pl/";
         private IWebDriver driver;
         private StringBuilder verificationErrors;
-        private string baseURL;
         //private bool acceptNextAlert = true;
 
         public Example()
@@ -25,8 +26,6 @@ namespace SeleniumTests
         {
             driver = new ChromeDriver();
             driver.Manage().Window.Maximize();
-            baseURL = "https://www.google.pl/";
-
             verificationErrors = new StringBuilder();
 
         }
@@ -34,34 +33,61 @@ namespace SeleniumTests
 
 
         [Fact]
-
         public void TheExampleTest()
-
         {
+            GoToGoogle();
 
-            driver.Navigate().GoToUrl(baseURL + "");
+            SearchInGoogle("codesprinters");
+            ClickEntryByText("Code Sprinters -");
 
-            driver.FindElement(By.Id("lst-ib")).Clear();
-            driver.FindElement(By.Id("lst-ib")).SendKeys("codesprinters");
-            driver.FindElement(By.Id("lst-ib")).Submit();
-            driver.FindElement(By.LinkText("Code Sprinters -")).Click();
-            var element = driver.FindElement(By.LinkText("Poznaj nasze podejście"));
-            //Assert.Equal("Code Sprinters -", driver.Title);
-            Assert.NotNull(element);
-            var elements = driver.FindElements(By.LinkText("Poznaj nasze podejście"));
-            Assert.Single(elements);
+            IWebElement poznajNaszePodejscieButton = FindButtonByText("Poznaj nasze podejście");
 
-            var popup = driver.FindElement(By.Id("cookie_action_close_header"));
-            popup.Click();
+            ClickCookieePopupById("cookie_action_close_header");
 
-            wait(By.Id("cookie_action_close_header"), driver);
-            //waitForElementPresent(element, 5, driver);
-            Thread.Sleep(2000);
-            element.Click();
-
-            var d = driver.Title;
+            poznajNaszePodejscieButton.Click();
 
             Assert.Equal("Nasze podejście - Code Sprinters", driver.Title);
+        }
+
+        private void GoToGoogle()
+        {
+            driver.Navigate().GoToUrl(GoogleUrl + "");
+        }
+
+        private void ClickCookieePopupById(string id)
+        {
+            var cookieeIdFilterBy = By.Id(id);
+            var popup = driver.FindElement(cookieeIdFilterBy);
+            popup.Click();
+            WaitUntilPopupInvisible(cookieeIdFilterBy, driver, 11);
+        }
+
+        private IWebElement FindButtonByText(string text)
+        {
+            By textFilterBy = By.LinkText(text);
+            var element = driver.FindElement(textFilterBy);
+            var elements = driver.FindElements(textFilterBy);
+            Assert.NotNull(element);
+            Assert.Single(elements);
+            return element;
+        }
+
+        private void ClickEntryByText(string text)
+        {
+            driver.FindElement(By.LinkText(text)).Click();
+        }
+
+        private void SearchInGoogle(string arg)
+        {
+            IWebElement googleSearchBox = GetGoogleSearchBox();
+            googleSearchBox.Clear();
+            googleSearchBox.SendKeys(arg);
+            googleSearchBox.Submit();
+        }
+
+        private IWebElement GetGoogleSearchBox()
+        {
+            return driver.FindElement(By.Id(SearchTextBoxId));
         }
 
         [Fact]
@@ -96,11 +122,11 @@ namespace SeleniumTests
             d.ToUpper();
         }
 
-        void wait(By by , IWebDriver driver)
+        private void WaitUntilPopupInvisible(By by , IWebDriver driver, int seconds)
         {
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(seconds));
 
-            wait.Until(ExpectedConditions.ElementExists(by));
+            wait.Until(ExpectedConditions.InvisibilityOfElementWithText(By.LinkText("Akceptuję"),"Akceptuję"));
         }
 
         //protected void waitForElementPresent(By by, int seconds, IWebDriver _driver)
