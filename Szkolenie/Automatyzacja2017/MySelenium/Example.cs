@@ -17,6 +17,7 @@ namespace SeleniumTests
     {
         private const string SearchTextBoxId = "lst-ib";
         private const string GoogleUrl = "https://www.google.pl/";
+        private const string CodeSprintersPageTitle = "Code Sprinters -";
         private IWebDriver driver;
         private StringBuilder verificationErrors;
         //private bool acceptNextAlert = true;
@@ -33,12 +34,12 @@ namespace SeleniumTests
 
 
         [Fact]
-        public void TheExampleTest()
+        public void Enter_codesprinters_page_and_click_button()
         {
             GoToGoogle();
 
             SearchInGoogle("codesprinters");
-            ClickEntryByText("Code Sprinters -");
+            ClickEntryByText(CodeSprintersPageTitle);
 
             IWebElement poznajNaszePodejscieButton = FindButtonByText("Poznaj nasze podejście");
 
