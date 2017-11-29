@@ -12,7 +12,7 @@ using System.Linq;
 namespace SeleniumTests
 
 {
-    public class Example : IDisposable
+    public class CodesprintersExample : IDisposable
 
     {
         private const string SearchTextBoxId = "lst-ib";
@@ -22,7 +22,7 @@ namespace SeleniumTests
         private StringBuilder verificationErrors;
         //private bool acceptNextAlert = true;
 
-        public Example()
+        public CodesprintersExample()
 
         {
             driver = new ChromeDriver();
