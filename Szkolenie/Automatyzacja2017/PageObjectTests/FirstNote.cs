@@ -39,10 +39,11 @@ namespace PageObjectTests
             //nameLabel.Click();
             //Browser.WaitForInvisible("//label[@for='author']");
             //Thread.Sleep(5000);
-            
+
 
             var authorInput = Browser.FindById(AuthorInputId);
-            //authorInput.Click();
+            
+            authorInput.Click();
             authorInput.SendKeys(author);
         }
 

@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.ObjectModel;
@@ -17,7 +18,7 @@ namespace PageObjectTests
 
         static Browser()
         {
-            _driver = new ChromeDriver();
+            _driver = new FirefoxDriver();
             _driver.Manage().Window.Maximize();
             _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromMilliseconds(500);
         }
@@ -38,9 +39,9 @@ namespace PageObjectTests
             _driver.Quit();
         }
 
-        internal static ReadOnlyCollection<IWebElement> FindByText(string text)
+        internal static ReadOnlyCollection<IWebElement> FindCommentByText(string text)
         {
-            return _driver.FindElements(By.XPath($"//*[contains(text(), '{text}')]"));
+            return _driver.FindElements(By.XPath($"//p[contains(text(), '{text}')]"));
         }
 
         internal static void WaitForInvisible(string xpath)

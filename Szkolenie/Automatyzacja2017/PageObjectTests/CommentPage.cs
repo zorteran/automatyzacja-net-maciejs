@@ -5,9 +5,9 @@ namespace PageObjectTests
 {
     internal class CommentPage
     {
-        internal static bool FindComment(string v)
+        internal static bool FindComment(string text)
         {
-            var comments = Browser.FindByText(v);
+            var comments = Browser.FindCommentByText(text);
             return (comments.Count > 0);
         }
     }
