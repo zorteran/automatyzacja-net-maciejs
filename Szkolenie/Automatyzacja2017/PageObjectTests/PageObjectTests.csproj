@@ -64,11 +64,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddingBlogCommentsTest.cs" />
+    <Compile Include="AddPostPage.cs" />
+    <Compile Include="AdminPage.cs" />
+    <Compile Include="BlogTests.cs" />
     <Compile Include="Browser.cs" />
     <Compile Include="CommentPage.cs" />
+    <Compile Include="DashboardPage.cs" />
     <Compile Include="FirstNote.cs" />
     <Compile Include="MainPage.cs" />
+    <Compile Include="NewPostPage.cs" />
+    <Compile Include="PostsPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

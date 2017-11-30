@@ -1,5 +1,4 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 using System;
@@ -29,6 +28,8 @@ namespace PageObjectTests
             _driver.Navigate().GoToUrl(url);
         }
 
+
+
         internal static ReadOnlyCollection<IWebElement> FindByXpath(string xpath)
         {
             return _driver.FindElements(By.XPath(xpath));
@@ -54,11 +55,16 @@ namespace PageObjectTests
         }
         internal static void WaitForInvisible(By by)
         {
-
             WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
 
             wait.Until(ExpectedConditions.ElementIsVisible(by));
+        }
 
+        internal static void WaitForAppear(By by)
+        {
+            WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
+
+            wait.Until(ExpectedConditions.ElementExists(by));
         }
 
         internal static IWebElement FindByClass(string classname)

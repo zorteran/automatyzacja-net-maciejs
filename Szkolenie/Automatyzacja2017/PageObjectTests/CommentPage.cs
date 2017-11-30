@@ -1,7 +1,4 @@
-﻿using System;
-using Xunit;
-
-namespace PageObjectTests
+﻿namespace PageObjectTests
 {
     internal class CommentPage
     {
