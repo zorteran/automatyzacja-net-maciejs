@@ -28,10 +28,15 @@ namespace PageObjectTests
         {
             FillCommentData(out commentText, out email, out authorText);
 
-
             MainPage.GoTo();
             MainPage.OpenFirstNote();
+            FirstNote.AddComment(commentText, email, authorText);
+            
+
+            //MainPage.GoTo();
+            //MainPage.OpenFirstNote();
             FirstNote.ClickFirstReplyButton();
+            
 
             FirstNote.AddComment(commentText, email, authorText);
             var result = CommentPage.FindComment(commentText);
@@ -104,6 +109,9 @@ namespace PageObjectTests
         [Fact]
         public void AddPostAndCommentItAsGuestAndDeleteIt()
         {
+            string title = "msz" + DateTime.Now;
+            string content = "To jest testowy post" + DateTime.Now;
+
             // ADD
             LogIn();
             DashboardPage.WaitForPageToLoad();
@@ -111,19 +119,10 @@ namespace PageObjectTests
 
             PostsPage.ClickNewPost();
 
-            AddPostPage.WaitForPageToLoad();
-
-            string title = "msz" + DateTime.Now;
-            string content = "To jest testowy post" + DateTime.Now;
-            AddPostPage.FillPostContent(title, content);
-            AddPostPage.PublishPost();
-
-            AddPostPage.ClickPostLink();
-
-            bool newPostExists = NewPostPage.CheckIfNewPostExists(title, content);
+            bool newPostExists = AddPost(title, content);
 
             Assert.True(newPostExists);
-            
+
             // COMMENT
             NewPostPage.Logout();
             NewPostPage.GoTo();
@@ -148,7 +147,20 @@ namespace PageObjectTests
             DashboardPage.ClickPostsMenuItem();
             var postExists = PostsPage.CheckIfPostExists(title);
             Assert.False(postExists);
-            
+
+        }
+
+        private static bool AddPost(string title, string content)
+        {
+            AddPostPage.WaitForPageToLoad();
+
+            AddPostPage.FillPostContent(title, content);
+            AddPostPage.PublishPost();
+
+            AddPostPage.ClickPostLink();
+
+            bool newPostExists = NewPostPage.CheckIfNewPostExists(title, content);
+            return newPostExists;
         }
 
         private static void FillCommentData(out string commentText, out string email, out string authorText)

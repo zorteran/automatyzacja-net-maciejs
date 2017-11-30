@@ -39,13 +39,14 @@ namespace PageObjectTests
 
 
             var authorInput = Browser.FindById(AuthorInputId);
-            
+            authorInput.Clear();
             authorInput.Click();
             authorInput.SendKeys(author);
         }
 
         internal static void ClickFirstReplyButton()
         {
+            Browser.WaitForAppear(By.ClassName(CommentReplyLinkClassname));
             IWebElement replyButton = Browser.FindByClass(CommentReplyLinkClassname);
             replyButton.Click();
 
@@ -55,6 +56,7 @@ namespace PageObjectTests
         private static void EnterEmail(string email)
         {
             var emailInput = Browser.FindById(EmailInputId);
+            emailInput.Clear();
             emailInput.Click();
             emailInput.SendKeys(email);
         }
@@ -62,6 +64,7 @@ namespace PageObjectTests
         private static void EnterCommentText(string text)
         {
             var commentTextArea = Browser.FindById(CommentTextAreaId);
+            commentTextArea.Clear();
             commentTextArea.Click();
             commentTextArea.SendKeys(text);
         }
