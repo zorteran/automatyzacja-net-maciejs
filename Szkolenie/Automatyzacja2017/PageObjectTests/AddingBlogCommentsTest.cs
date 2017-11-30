@@ -28,6 +28,22 @@ namespace PageObjectTests
             Assert.True(result);
         }
 
+        [Fact]
+        public void CanAddCommentToTheComment()
+        {
+            string commentText = "To jest testowy komentarz" + DateTime.Now;
+            string email = "m@sz.pl";
+            string authorText = "msz";
+
+            MainPage.GoTo();
+            MainPage.OpenFirstNote();
+            FirstNote.ClickFirstReplyButton();
+
+            FirstNote.AddComment(commentText, email, authorText);
+            var result = CommentPage.FindComment(commentText);
+            Assert.True(result);
+        }
+
         public void Dispose()
         {
             try

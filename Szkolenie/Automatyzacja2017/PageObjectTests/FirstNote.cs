@@ -12,6 +12,7 @@ namespace PageObjectTests
         private const string EmailInputId = "email";
         private const string AuthorInputId = "author";
         private const string SendButtonId = "comment-submit";
+        private const string CommentReplyLinkClassname = "comment-reply-link";
 
         /// <summary>
         /// 
@@ -45,6 +46,14 @@ namespace PageObjectTests
             
             authorInput.Click();
             authorInput.SendKeys(author);
+        }
+
+        internal static void ClickFirstReplyButton()
+        {
+            IWebElement replyButton = Browser.FindByClass(CommentReplyLinkClassname);
+            replyButton.Click();
+
+            Browser.WaitForInvisible(By.Id(CommentTextAreaId));
         }
 
         private static void EnterEmail(string email)

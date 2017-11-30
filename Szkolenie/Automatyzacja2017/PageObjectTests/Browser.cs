@@ -52,5 +52,18 @@ namespace PageObjectTests
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(xpath)));
 
         }
+        internal static void WaitForInvisible(By by)
+        {
+
+            WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
+
+            wait.Until(ExpectedConditions.ElementIsVisible(by));
+
+        }
+
+        internal static IWebElement FindByClass(string classname)
+        {
+            return _driver.FindElement(By.ClassName(classname));
+        }
     }
 }
