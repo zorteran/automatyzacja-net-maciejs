@@ -8,15 +8,23 @@ namespace PageObjectTests
     {
         private const string PostsMenuItemText = "Posts";
         private const string DashboardText = "Dashboard";
-        internal static void ClickPostsMenuItem()
+
+        private Browser browser;
+
+        public DashboardPage(IWebDriver driver)
         {
-            var postsMenuItem = Browser.FindByXpath($"//div[contains(text(), '{PostsMenuItemText}')]").First();
+            browser = new Browser(driver);
+        }
+
+        internal  void ClickPostsMenuItem()
+        {
+            var postsMenuItem = browser.FindByXpath($"//div[contains(text(), '{PostsMenuItemText}')]").First();
             postsMenuItem.Click();
         }
 
-        internal static void WaitForPageToLoad()
+        internal  void WaitForPageToLoad()
         {
-            Browser.WaitForAppear(By.XPath($"//h1[contains(text(), '{DashboardText}')]"));
+            browser.WaitForAppear(By.XPath($"//h1[contains(text(), '{DashboardText}')]"));
         }
     }
 }

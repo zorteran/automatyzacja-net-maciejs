@@ -1,4 +1,6 @@
-﻿using System;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using System;
 using System.Threading;
 using Xunit;
 
@@ -9,159 +11,189 @@ namespace PageObjectTests
         string commentText, email, authorText;
         private const string login = "autotestdotnet@gmail.com";
         private const string password = "P@ssw0rd1";
+        private IWebDriver _driver;
 
         [Fact]
         public void CanAddCommentToTheBlogNote()
         {
-            FillCommentData(out commentText, out email, out authorText);
+            IWebDriver driver = OpenBrowser();
+            MainPage mainPage = new MainPage(driver);
+            FirstNote firstNote = new FirstNote(driver);
+            CommentPage commentPage = new CommentPage(driver);
 
-            MainPage.GoTo();
-            MainPage.OpenFirstNote();
-            FirstNote.AddComment(commentText, email, authorText);
-            var result = CommentPage.FindComment(commentText);
+            FillCommentData(out commentText, out email, out authorText);
+            
+            mainPage.GoTo();
+            mainPage.OpenFirstNote();
+            firstNote.AddComment(commentText, email, authorText);
+            var result = commentPage.FindComment(commentText);
             Assert.True(result);
         }
+
 
 
         [Fact]
         public void CanAddCommentToTheComment()
         {
+            IWebDriver driver = OpenBrowser();
+            MainPage mainPage = new MainPage(driver);
+            FirstNote firstNote = new FirstNote(driver);
+            CommentPage commentPage = new CommentPage(driver);
+
             FillCommentData(out commentText, out email, out authorText);
 
-            MainPage.GoTo();
-            MainPage.OpenFirstNote();
-            FirstNote.AddComment(commentText, email, authorText);
+            mainPage.GoTo();
+            mainPage.OpenFirstNote();
+            firstNote.AddComment(commentText, email, authorText);
             
+            firstNote.ClickFirstReplyButton();
 
-            //MainPage.GoTo();
-            //MainPage.OpenFirstNote();
-            FirstNote.ClickFirstReplyButton();
-            
-
-            FirstNote.AddComment(commentText, email, authorText);
-            var result = CommentPage.FindComment(commentText);
+            firstNote.AddComment(commentText, email, authorText);
+            var result = commentPage.FindComment(commentText);
             Assert.True(result);
         }
+
         [Fact]
         public void AddPostFromAdminPage()
         {
-            LogIn();
+            IWebDriver driver = OpenBrowser();
+            DashboardPage dashboardPage = new DashboardPage(driver);
+            AddPostPage addPostPage = new AddPostPage(driver);
+            PostsPage postsPage = new PostsPage(driver);
+            NewPostPage newPostPage = new NewPostPage(driver);
+            AdminPage adminPage = new AdminPage(driver);
 
-            DashboardPage.WaitForPageToLoad();
-            DashboardPage.ClickPostsMenuItem();
+            LogIn(adminPage);
 
-            PostsPage.ClickNewPost();
+            dashboardPage.WaitForPageToLoad();
+            dashboardPage.ClickPostsMenuItem();
 
-            AddPostPage.WaitForPageToLoad();
+            postsPage.ClickNewPost();
+
+            addPostPage.WaitForPageToLoad();
 
             string title = "msz" + DateTime.Now;
             string content = "To jest testowy post" + DateTime.Now;
-            AddPostPage.FillPostContent(title, content);
-            AddPostPage.PublishPost();
+            addPostPage.FillPostContent(title, content);
+            addPostPage.PublishPost();
 
-            AddPostPage.ClickPostLink();
+            addPostPage.ClickPostLink(newPostPage);
 
-            bool result = NewPostPage.CheckIfNewPostExists(title, content);
+            bool result = newPostPage.CheckIfNewPostExists(title, content);
 
             Assert.True(result);
 
-        }
-
-        private static void LogIn()
-        {
-            AdminPage.GoTo();
-            AdminPage.LogIn(login, password);
         }
 
         [Fact]
         public void AddPostAndCommentItAsGuest()
         {
-            LogIn();
+            IWebDriver driver = OpenBrowser();
+            DashboardPage dashboardPage = new DashboardPage(driver);
+            AddPostPage addPostPage = new AddPostPage(driver);
+            PostsPage postsPage = new PostsPage(driver);
+            NewPostPage newPostPage = new NewPostPage(driver);
+            FirstNote firstNote = new FirstNote(driver);
+            CommentPage commentPage = new CommentPage(driver);
+            AdminPage adminPage = new AdminPage(driver);
 
-            DashboardPage.WaitForPageToLoad();
-            DashboardPage.ClickPostsMenuItem();
+            LogIn(adminPage);
 
-            PostsPage.ClickNewPost();
+            dashboardPage.WaitForPageToLoad();
+            dashboardPage.ClickPostsMenuItem();
 
-            AddPostPage.WaitForPageToLoad();
+            postsPage.ClickNewPost();
+
+            addPostPage.WaitForPageToLoad();
 
             string title = "msz" + DateTime.Now;
             string content = "To jest testowy post" + DateTime.Now;
-            AddPostPage.FillPostContent(title, content);
-            AddPostPage.PublishPost();
+            addPostPage.FillPostContent(title, content);
+            addPostPage.PublishPost();
 
-            AddPostPage.ClickPostLink();
+            addPostPage.ClickPostLink(newPostPage);
 
-            bool result1 = NewPostPage.CheckIfNewPostExists(title, content);
+            bool result1 = newPostPage.CheckIfNewPostExists(title, content);
 
             Assert.True(result1);
 
-            NewPostPage.Logout();
-            NewPostPage.GoTo();
+            newPostPage.Logout();
+            newPostPage.GoTo();
 
             FillCommentData(out commentText, out email, out authorText);
 
-            FirstNote.AddComment(commentText, email, authorText);
-            bool result2 = CommentPage.FindComment(commentText);
+            firstNote.AddComment(commentText, email, authorText);
+            bool result2 = commentPage.FindComment(commentText);
             Assert.True(result2);
         }
 
         [Fact]
         public void AddPostAndCommentItAsGuestAndDeleteIt()
         {
+            IWebDriver driver = OpenBrowser();
+            DashboardPage dashboardPage = new DashboardPage(driver);
+            AddPostPage addPostPage = new AddPostPage(driver);
+            PostsPage postsPage = new PostsPage(driver);
+            NewPostPage newPostPage = new NewPostPage(driver);
+            FirstNote firstNote = new FirstNote(driver);
+            CommentPage commentPage = new CommentPage(driver);
+            EditPostPage editPostPage = new EditPostPage(driver);
+            AdminPage adminPage = new AdminPage(driver);
+
             string title = "msz" + DateTime.Now;
             string content = "To jest testowy post" + DateTime.Now;
 
             // ADD
-            LogIn();
-            DashboardPage.WaitForPageToLoad();
-            DashboardPage.ClickPostsMenuItem();
+            LogIn(adminPage);
+            dashboardPage.WaitForPageToLoad();
+            dashboardPage.ClickPostsMenuItem();
 
-            PostsPage.ClickNewPost();
+            postsPage.ClickNewPost();
 
-            bool newPostExists = AddPost(title, content);
+            addPostPage.WaitForPageToLoad();
+
+            addPostPage.FillPostContent(title, content);
+            addPostPage.PublishPost();
+
+            addPostPage.ClickPostLink(newPostPage);
+
+            bool newPostExists = newPostPage.CheckIfNewPostExists(title, content);
 
             Assert.True(newPostExists);
 
             // COMMENT
-            NewPostPage.Logout();
-            NewPostPage.GoTo();
+            newPostPage.Logout();
+            newPostPage.GoTo();
 
             FillCommentData(out commentText, out email, out authorText);
 
-            FirstNote.AddComment(commentText, email, authorText);
-            bool commentIsFound = CommentPage.FindComment(commentText);
+            firstNote.AddComment(commentText, email, authorText);
+            bool commentIsFound = commentPage.FindComment(commentText);
             Assert.True(commentIsFound);
 
             //DELETE
-            LogIn();
-            DashboardPage.WaitForPageToLoad();
-            DashboardPage.ClickPostsMenuItem();
-            PostsPage.ClickPostByTitle(title);
-            EditPostPage.DeletePost();
+            LogIn(adminPage);
+            dashboardPage.WaitForPageToLoad();
+            dashboardPage.ClickPostsMenuItem();
+            postsPage.ClickPostByTitle(title);
+            editPostPage.DeletePost();
 
             // ASSERT
-            var postIsDeletedMessage = EditPostPage.CheckIfPostIsDeleted();
+            var postIsDeletedMessage = editPostPage.CheckIfPostIsDeleted();
             Assert.True(postIsDeletedMessage);
 
-            DashboardPage.ClickPostsMenuItem();
-            var postExists = PostsPage.CheckIfPostExists(title);
+            dashboardPage.ClickPostsMenuItem();
+            var postExists = postsPage.CheckIfPostExists(title);
             Assert.False(postExists);
 
         }
 
-        private static bool AddPost(string title, string content)
+        private static void LogIn(AdminPage adminPage)
         {
-            AddPostPage.WaitForPageToLoad();
-
-            AddPostPage.FillPostContent(title, content);
-            AddPostPage.PublishPost();
-
-            AddPostPage.ClickPostLink();
-
-            bool newPostExists = NewPostPage.CheckIfNewPostExists(title, content);
-            return newPostExists;
+            adminPage.GoTo();
+            adminPage.LogIn(login, password);
         }
+
 
         private static void FillCommentData(out string commentText, out string email, out string authorText)
         {
@@ -174,7 +206,7 @@ namespace PageObjectTests
         {
             try
             {
-                Browser.Close();
+                _driver.Close();
             }
             catch (Exception)
             {
@@ -182,5 +214,15 @@ namespace PageObjectTests
                 throw;
             }
         }
+
+        private IWebDriver OpenBrowser()
+        {
+            var browser = new FirefoxDriver();
+            browser.Manage().Window.Maximize();
+            browser.Manage().Timeouts().ImplicitWait = TimeSpan.FromMilliseconds(500);
+            _driver = browser;
+            return browser;
+        }
+
     }
 }

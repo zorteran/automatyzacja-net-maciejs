@@ -8,44 +8,42 @@ namespace PageObjectTests
 {
     internal class Browser
     {
-        private static IWebDriver _driver;
+        private  IWebDriver _driver;
 
-        internal static IWebElement FindById(string id)
+        internal  IWebElement FindById(string id)
         {
             return _driver.FindElement(By.Id(id));
         }
 
-        static Browser()
+        public Browser(IWebDriver driver)
         {
-            _driver = new FirefoxDriver();
-            _driver.Manage().Window.Maximize();
-            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromMilliseconds(500);
+            _driver = driver;
         }
+        
 
-
-        internal static void NavigateTo(string url)
+        internal  void NavigateTo(string url)
         {
             _driver.Navigate().GoToUrl(url);
         }
 
 
 
-        internal static ReadOnlyCollection<IWebElement> FindByXpath(string xpath)
+        internal  ReadOnlyCollection<IWebElement> FindByXpath(string xpath)
         {
             return _driver.FindElements(By.XPath(xpath));
         }
 
-        internal static void Close()
+        internal  void Close()
         {
             _driver.Quit();
         }
 
-        internal static ReadOnlyCollection<IWebElement> FindCommentByText(string text)
+        internal  ReadOnlyCollection<IWebElement> FindCommentByText(string text)
         {
             return _driver.FindElements(By.XPath($"//p[contains(text(), '{text}')]"));
         }
 
-        internal static void WaitForInvisible(string xpath)
+        internal  void WaitForInvisible(string xpath)
         {
 
             WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
@@ -53,26 +51,26 @@ namespace PageObjectTests
             wait.Until(ExpectedConditions.ElementIsVisible(By.XPath(xpath)));
 
         }
-        internal static void WaitForInvisible(By by)
+        internal  void WaitForInvisible(By by)
         {
             WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
 
             wait.Until(ExpectedConditions.ElementIsVisible(by));
         }
 
-        internal static void WaitForAppear(By by)
+        internal  void WaitForAppear(By by)
         {
             WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(10));
 
             wait.Until(ExpectedConditions.ElementExists(by));
         }
 
-        internal static string GetCurrentUrl()
+        internal  string GetCurrentUrl()
         {
             return _driver.Url;
         }
 
-        internal static IWebElement FindByClass(string classname)
+        internal  IWebElement FindByClass(string classname)
         {
             return _driver.FindElement(By.ClassName(classname));
         }

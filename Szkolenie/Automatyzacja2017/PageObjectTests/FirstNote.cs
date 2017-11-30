@@ -10,13 +10,20 @@ namespace PageObjectTests
         private const string SendButtonId = "comment-submit";
         private const string CommentReplyLinkClassname = "comment-reply-link";
 
+        private Browser browser;
+
+        public FirstNote(IWebDriver driver)
+        {
+            browser = new Browser(driver);
+        }
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="text">Treść komentarza</param>
         /// <param name="email">Adres email</param>
         /// <param name="author">Autor</param>
-        internal static void AddComment(string text, string email, string author)
+        internal  void AddComment(string text, string email, string author)
         {
             EnterCommentText(text);
             EnterEmail(email);
@@ -24,46 +31,46 @@ namespace PageObjectTests
             ClickSend();
         }
 
-        private static void ClickSend()
+        private  void ClickSend()
         {
-            var button = Browser.FindById(SendButtonId);
+            var button = browser.FindById(SendButtonId);
             button.Click();
         }
 
-        private static void EnterAuthor(string author)
+        private  void EnterAuthor(string author)
         {
-            //var nameLabel = Browser.FindByXpath("//label[@for='author']").First();
+            //var nameLabel = browser.FindByXpath("//label[@for='author']").First();
             //nameLabel.Click();
-            //Browser.WaitForInvisible("//label[@for='author']");
+            //browser.WaitForInvisible("//label[@for='author']");
             //Thread.Sleep(5000);
 
 
-            var authorInput = Browser.FindById(AuthorInputId);
+            var authorInput = browser.FindById(AuthorInputId);
             authorInput.Clear();
             authorInput.Click();
             authorInput.SendKeys(author);
         }
 
-        internal static void ClickFirstReplyButton()
+        internal  void ClickFirstReplyButton()
         {
-            Browser.WaitForAppear(By.ClassName(CommentReplyLinkClassname));
-            IWebElement replyButton = Browser.FindByClass(CommentReplyLinkClassname);
+            browser.WaitForAppear(By.ClassName(CommentReplyLinkClassname));
+            IWebElement replyButton = browser.FindByClass(CommentReplyLinkClassname);
             replyButton.Click();
 
-            Browser.WaitForInvisible(By.Id(CommentTextAreaId));
+            browser.WaitForInvisible(By.Id(CommentTextAreaId));
         }
 
-        private static void EnterEmail(string email)
+        private  void EnterEmail(string email)
         {
-            var emailInput = Browser.FindById(EmailInputId);
+            var emailInput = browser.FindById(EmailInputId);
             emailInput.Clear();
             emailInput.Click();
             emailInput.SendKeys(email);
         }
 
-        private static void EnterCommentText(string text)
+        private  void EnterCommentText(string text)
         {
-            var commentTextArea = Browser.FindById(CommentTextAreaId);
+            var commentTextArea = browser.FindById(CommentTextAreaId);
             commentTextArea.Clear();
             commentTextArea.Click();
             commentTextArea.SendKeys(text);

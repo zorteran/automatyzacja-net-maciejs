@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenQA.Selenium;
+using System;
 using System.Linq;
 using System.Threading;
 
@@ -7,15 +8,23 @@ namespace PageObjectTests
     internal class MainPage
     {
         private const string url = "https://autotestdotnet.wordpress.com";
-        internal static void GoTo()
+
+        private Browser browser;
+
+        public MainPage(IWebDriver driver)
         {
-            Browser.NavigateTo(url);
+            browser = new Browser(driver);
+        }
+
+        internal  void GoTo()
+        {
+            browser.NavigateTo(url);
             
         }
 
-        internal static void OpenFirstNote()
+        internal  void OpenFirstNote()
         {
-            var articles = Browser.FindByXpath("//article/header");
+            var articles = browser.FindByXpath("//article/header");
             articles.First().Click();
         }
     }

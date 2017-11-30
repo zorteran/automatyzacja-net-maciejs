@@ -8,27 +8,33 @@ namespace PageObjectTests
     internal class PostsPage
     {
         private const string NewPostText = "Add New";
+        private Browser browser;
 
-        internal static void ClickNewPost()
+        public PostsPage(IWebDriver driver)
         {
-            var newPostButton = Browser.FindByXpath($"//a[contains(text(), '{NewPostText}')]").First();
+            browser = new Browser(driver);
+        }
+
+        internal  void ClickNewPost()
+        {
+            var newPostButton = browser.FindByXpath($"//a[contains(text(), '{NewPostText}')]").First();
             newPostButton.Click();
         }
 
-        internal static void ClickPostByTitle(string title)
+        internal  void ClickPostByTitle(string title)
         {
             var post = FindPostByTitle(title).First();
             post.Click();
         }
 
-        internal static bool CheckIfPostExists(string title)
+        internal  bool CheckIfPostExists(string title)
         {
             return (FindPostByTitle(title).Count > 0);
         }
 
-        private static ReadOnlyCollection<IWebElement> FindPostByTitle(string title)
+        private  ReadOnlyCollection<IWebElement> FindPostByTitle(string title)
         {
-            return Browser.FindByXpath($"//a[contains(text(), '{title}')]");
+            return browser.FindByXpath($"//a[contains(text(), '{title}')]");
         }
     }
 }

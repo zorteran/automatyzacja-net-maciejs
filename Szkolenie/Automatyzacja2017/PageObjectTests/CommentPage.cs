@@ -1,11 +1,21 @@
-﻿namespace PageObjectTests
+﻿using OpenQA.Selenium;
+
+namespace PageObjectTests
 {
     internal class CommentPage
     {
-        internal static bool FindComment(string text)
+
+        private Browser browser;
+
+        public CommentPage(IWebDriver driver)
         {
-            var comments = Browser.FindCommentByText(text);
-            return (comments.Count > 1);
+            browser = new Browser(driver);
+        }
+
+        internal bool FindComment(string text)
+        {
+            var comments = browser.FindCommentByText(text);
+            return (comments.Count > 0);
         }
     }
 }

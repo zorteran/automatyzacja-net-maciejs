@@ -14,28 +14,36 @@ namespace PageObjectTests
         private const string PublishButtonId = "publish";
         private const string ViewPostLinkText = "View post";
 
-        internal static void WaitForPageToLoad()
+        private Browser browser;
+
+        public AddPostPage(IWebDriver driver)
         {
-            Browser.WaitForAppear(By.XPath($"//h1[contains(text(), '{AddNewPostHeaderText}')]"));
+            browser = new Browser(driver);
         }
 
-        internal static void PublishPost()
+
+        internal  void WaitForPageToLoad()
         {
-            var publishButton = Browser.FindById(PublishButtonId);
+            browser.WaitForAppear(By.XPath($"//h1[contains(text(), '{AddNewPostHeaderText}')]"));
+        }
+
+        internal  void PublishPost()
+        {
+            var publishButton = browser.FindById(PublishButtonId);
             WaitForEditButton();
             publishButton.Click();
         }
 
-        private static void WaitForEditButton()
+        private  void WaitForEditButton()
         {
-            Browser.WaitForAppear(By.XPath($"//button[contains(text(), '{EditButtonText}')]"));
+            browser.WaitForAppear(By.XPath($"//button[contains(text(), '{EditButtonText}')]"));
         }
 
-        internal static void FillPostContent(string title, string content)
+        internal  void FillPostContent(string title, string content)
         {
-            var titleInput = Browser.FindById(TitleInputId);
-            var textButton = Browser.FindById(TextButtonId);
-            var postTextArea = Browser.FindById(PostTextAreaId);
+            var titleInput = browser.FindById(TitleInputId);
+            var textButton = browser.FindById(TextButtonId);
+            var postTextArea = browser.FindById(PostTextAreaId);
 
             titleInput.Click();
             titleInput.SendKeys(title);
@@ -47,18 +55,18 @@ namespace PageObjectTests
 
         }
 
-        internal static void ClickPostLink()
+        internal  void ClickPostLink(NewPostPage newPostPage)
         {
             string xpath = $"//a[contains(text(), '{ViewPostLinkText}')]";
             WaitForPostLinkToAppear(xpath);
-            var newPostLink = Browser.FindByXpath(xpath).First();
+            var newPostLink = browser.FindByXpath(xpath).First();
             newPostLink.Click();
-            NewPostPage.SetNewUrl(Browser.GetCurrentUrl());
+            newPostPage.SetNewUrl(browser.GetCurrentUrl());
         }
 
-        private static void WaitForPostLinkToAppear(string xpath)
+        private  void WaitForPostLinkToAppear(string xpath)
         {
-            Browser.WaitForAppear(By.XPath(xpath));
+            browser.WaitForAppear(By.XPath(xpath));
         }
     }
 }

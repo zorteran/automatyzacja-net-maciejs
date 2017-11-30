@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenQA.Selenium;
+using System;
 using System.Linq;
 
 namespace PageObjectTests
@@ -8,15 +9,22 @@ namespace PageObjectTests
         private const string DeletePostLinkText = "Move to Trash";
         private const string DeletedPostMessageText = "1 post moved to the Trash";
 
-        internal static void DeletePost()
+        private Browser browser;
+
+        public EditPostPage(IWebDriver driver)
         {
-            var deletePostLink = Browser.FindByXpath($"//a[contains(text(), '{DeletePostLinkText}')]").First();
+            browser = new Browser(driver);
+        }
+
+        internal  void DeletePost()
+        {
+            var deletePostLink = browser.FindByXpath($"//a[contains(text(), '{DeletePostLinkText}')]").First();
             deletePostLink.Click();
         }
 
-        internal static bool CheckIfPostIsDeleted()
+        internal  bool CheckIfPostIsDeleted()
         {
-            return (Browser.FindByXpath($"//p[contains(text(), '{DeletedPostMessageText}')]").Count > 0);
+            return (browser.FindByXpath($"//p[contains(text(), '{DeletedPostMessageText}')]").Count > 0);
         }
     }
 }
