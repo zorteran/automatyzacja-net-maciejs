@@ -53,6 +53,7 @@ namespace PageObjectTests
             WaitForPostLinkToAppear(xpath);
             var newPostLink = Browser.FindByXpath(xpath).First();
             newPostLink.Click();
+            NewPostPage.SetNewUrl(Browser.GetCurrentUrl());
         }
 
         private static void WaitForPostLinkToAppear(string xpath)

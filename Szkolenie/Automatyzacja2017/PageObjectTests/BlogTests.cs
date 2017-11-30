@@ -40,8 +40,7 @@ namespace PageObjectTests
         [Fact]
         public void AddPostFromAdminPage()
         {
-            AdminPage.GoTo();
-            AdminPage.LogIn(login,password);
+            LogIn();
 
             DashboardPage.WaitForPageToLoad();
             DashboardPage.ClickPostsMenuItem();
@@ -60,6 +59,95 @@ namespace PageObjectTests
             bool result = NewPostPage.CheckIfNewPostExists(title, content);
 
             Assert.True(result);
+
+        }
+
+        private static void LogIn()
+        {
+            AdminPage.GoTo();
+            AdminPage.LogIn(login, password);
+        }
+
+        [Fact]
+        public void AddPostAndCommentItAsGuest()
+        {
+            LogIn();
+
+            DashboardPage.WaitForPageToLoad();
+            DashboardPage.ClickPostsMenuItem();
+
+            PostsPage.ClickNewPost();
+
+            AddPostPage.WaitForPageToLoad();
+
+            string title = "msz" + DateTime.Now;
+            string content = "To jest testowy post" + DateTime.Now;
+            AddPostPage.FillPostContent(title, content);
+            AddPostPage.PublishPost();
+
+            AddPostPage.ClickPostLink();
+
+            bool result1 = NewPostPage.CheckIfNewPostExists(title, content);
+
+            Assert.True(result1);
+
+            NewPostPage.Logout();
+            NewPostPage.GoTo();
+
+            FillCommentData(out commentText, out email, out authorText);
+
+            FirstNote.AddComment(commentText, email, authorText);
+            bool result2 = CommentPage.FindComment(commentText);
+            Assert.True(result2);
+        }
+
+        [Fact]
+        public void AddPostAndCommentItAsGuestAndDeleteIt()
+        {
+            // ADD
+            LogIn();
+            DashboardPage.WaitForPageToLoad();
+            DashboardPage.ClickPostsMenuItem();
+
+            PostsPage.ClickNewPost();
+
+            AddPostPage.WaitForPageToLoad();
+
+            string title = "msz" + DateTime.Now;
+            string content = "To jest testowy post" + DateTime.Now;
+            AddPostPage.FillPostContent(title, content);
+            AddPostPage.PublishPost();
+
+            AddPostPage.ClickPostLink();
+
+            bool newPostExists = NewPostPage.CheckIfNewPostExists(title, content);
+
+            Assert.True(newPostExists);
+            
+            // COMMENT
+            NewPostPage.Logout();
+            NewPostPage.GoTo();
+
+            FillCommentData(out commentText, out email, out authorText);
+
+            FirstNote.AddComment(commentText, email, authorText);
+            bool commentIsFound = CommentPage.FindComment(commentText);
+            Assert.True(commentIsFound);
+
+            //DELETE
+            LogIn();
+            DashboardPage.WaitForPageToLoad();
+            DashboardPage.ClickPostsMenuItem();
+            PostsPage.ClickPostByTitle(title);
+            EditPostPage.DeletePost();
+
+            // ASSERT
+            var postIsDeletedMessage = EditPostPage.CheckIfPostIsDeleted();
+            Assert.True(postIsDeletedMessage);
+
+            DashboardPage.ClickPostsMenuItem();
+            var postExists = PostsPage.CheckIfPostExists(title);
+            Assert.False(postExists);
             
         }
 

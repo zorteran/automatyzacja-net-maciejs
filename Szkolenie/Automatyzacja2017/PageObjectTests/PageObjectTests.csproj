@@ -70,6 +70,7 @@
     <Compile Include="Browser.cs" />
     <Compile Include="CommentPage.cs" />
     <Compile Include="DashboardPage.cs" />
+    <Compile Include="EditPostPage.cs" />
     <Compile Include="FirstNote.cs" />
     <Compile Include="MainPage.cs" />
     <Compile Include="NewPostPage.cs" />

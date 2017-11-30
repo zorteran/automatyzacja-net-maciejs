@@ -67,6 +67,11 @@ namespace PageObjectTests
             wait.Until(ExpectedConditions.ElementExists(by));
         }
 
+        internal static string GetCurrentUrl()
+        {
+            return _driver.Url;
+        }
+
         internal static IWebElement FindByClass(string classname)
         {
             return _driver.FindElement(By.ClassName(classname));
